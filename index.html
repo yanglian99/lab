@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>微信跳一跳（简化版）</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="hud">
+        <h1>微信跳一跳</h1>
+        <div class="stats">
+          <span>得分：<strong id="score">0</strong></span>
+          <span>最高：<strong id="best">0</strong></span>
+        </div>
+      </header>
+
+      <canvas id="game" width="420" height="720" aria-label="跳一跳游戏画布"></canvas>
+
+      <section class="tips">
+        <p>按住空格键 / 鼠标 / 触屏蓄力，松开后起跳。</p>
+        <button id="restart" type="button">重新开始</button>
+      </section>
+    </main>
+
+    <script src="game.js"></script>
+  </body>
+</html>
