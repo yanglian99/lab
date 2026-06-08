@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Rift Runner - Retro Arena FPS</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="game-shell">
+      <section class="hud hud-top" aria-label="Player status">
+        <div><span>Health</span><strong id="health">100</strong></div>
+        <div><span>Ammo</span><strong id="ammo">50</strong></div>
+        <div><span>Score</span><strong id="score">0</strong></div>
+        <div><span>Wave</span><strong id="wave">1</strong></div>
+      </section>
+
+      <canvas id="game" width="960" height="540" aria-label="Rift Runner game canvas"></canvas>
+
+      <section class="hud hud-bottom" aria-label="Controls">
+        <p><strong>WASD</strong> move · <strong>← →</strong> turn · <strong>Mouse</strong> aim · <strong>Click / Space</strong> shoot · <strong>R</strong> restart</p>
+      </section>
+
+      <section id="overlay" class="overlay">
+        <div class="panel">
+          <p class="eyebrow">Arena breach detected</p>
+          <h1>Rift Runner</h1>
+          <p>
+            A fast retro shooter prototype: strafe through a gothic maze, track rift beasts,
+            and keep firing before they close the distance.
+          </p>
+          <button id="startButton">Enter the Arena</button>
+        </div>
+      </section>
+    </main>
+
+    <script src="game.js"></script>
+  </body>
+</html>
