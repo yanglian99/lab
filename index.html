@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game of AI: Neural Maze</title>
+    <link rel="stylesheet" href="src/styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="hero-card" aria-labelledby="game-title">
+        <p class="eyebrow">Game of AI MVP</p>
+        <h1 id="game-title">Neural Maze</h1>
+        <p class="lede">
+          Escape a corrupted data vault with guidance from an AI companion that scores every possible move.
+        </p>
+        <div class="actions">
+          <button id="start-button" class="primary-button">Start Round</button>
+          <button id="restart-button" class="secondary-button">Restart</button>
+        </div>
+      </section>
+
+      <section class="game-card" aria-label="Neural Maze game board">
+        <canvas id="game-canvas" width="640" height="640" aria-label="Grid-based puzzle board"></canvas>
+        <div id="overlay" class="overlay visible">
+          <h2>Ready to breach?</h2>
+          <p>Collect all three data cores, reach the exit, and avoid the sentinel firewall.</p>
+          <p class="controls">Move with WASD or arrow keys.</p>
+        </div>
+      </section>
+
+      <aside class="hud-card" aria-label="Game status">
+        <div class="stat-grid">
+          <div>
+            <span class="stat-label">Score</span>
+            <strong id="score">0</strong>
+          </div>
+          <div>
+            <span class="stat-label">Turns</span>
+            <strong id="turns">0</strong>
+          </div>
+          <div>
+            <span class="stat-label">Cores</span>
+            <strong id="cores">0/3</strong>
+          </div>
+          <div>
+            <span class="stat-label">Threat</span>
+            <strong id="threat">Low</strong>
+          </div>
+        </div>
+
+        <article class="ai-panel">
+          <h2>AI Companion</h2>
+          <p id="ai-hint">Start a round to receive a tactical recommendation.</p>
+        </article>
+
+        <article class="brief-panel">
+          <h2>MVP Scope</h2>
+          <ul>
+            <li>One handcrafted level/map</li>
+            <li>One AI behavior mode: companion move scoring</li>
+            <li>Start, play, win/lose, score, and restart flow</li>
+          </ul>
+        </article>
+      </aside>
+    </main>
+
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>
