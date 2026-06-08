@@ -1,0 +1,18 @@
+{
+  "name": "game-of-ai",
+  "version": "0.1.0",
+  "description": "Game of AI: a browser-based AI companion puzzle game MVP.",
+  "type": "module",
+  "scripts": {
+    "start": "python3 -m http.server 4173",
+    "test": "node tests/gameLogic.test.js"
+  },
+  "keywords": [
+    "game",
+    "ai",
+    "canvas",
+    "puzzle"
+  ],
+  "author": "",
+  "license": "MIT"
+}

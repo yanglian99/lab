@@ -1,0 +1,186 @@
+:root {
+  color: #e2e8f0;
+  background: #020617;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(circle at top left, rgba(14, 165, 233, 0.22), transparent 28rem),
+    radial-gradient(circle at bottom right, rgba(168, 85, 247, 0.2), transparent 24rem),
+    #020617;
+}
+
+button {
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  padding: 0.85rem 1.2rem;
+}
+
+.app-shell {
+  display: grid;
+  grid-template-columns: minmax(16rem, 22rem) minmax(22rem, 40rem) minmax(16rem, 22rem);
+  gap: 1.25rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.hero-card,
+.game-card,
+.hud-card {
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 28px;
+  background: rgba(15, 23, 42, 0.8);
+  box-shadow: 0 24px 80px rgba(2, 6, 23, 0.45);
+}
+
+.hero-card,
+.hud-card {
+  align-self: start;
+  padding: 1.5rem;
+}
+
+.eyebrow {
+  color: #67e8f9;
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  margin: 0 0 0.5rem;
+  text-transform: uppercase;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 7vw, 4.7rem);
+  line-height: 0.9;
+  margin: 0;
+}
+
+h2 {
+  margin: 0 0 0.75rem;
+}
+
+.lede {
+  color: #cbd5e1;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.primary-button {
+  background: linear-gradient(135deg, #22d3ee, #a78bfa);
+  color: #020617;
+}
+
+.secondary-button {
+  background: #1e293b;
+  color: #e2e8f0;
+}
+
+.game-card {
+  overflow: hidden;
+  position: relative;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.overlay {
+  align-items: center;
+  background: rgba(2, 6, 23, 0.82);
+  display: none;
+  inset: 0;
+  justify-content: center;
+  padding: 2rem;
+  position: absolute;
+  text-align: center;
+}
+
+.overlay.visible {
+  display: flex;
+  flex-direction: column;
+}
+
+.overlay h2 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+}
+
+.controls {
+  color: #67e8f9;
+  font-weight: 800;
+}
+
+.stat-grid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.stat-grid div,
+.ai-panel,
+.brief-panel {
+  background: rgba(30, 41, 59, 0.74);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 18px;
+  padding: 1rem;
+}
+
+.stat-label {
+  color: #94a3b8;
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.stat-grid strong {
+  display: block;
+  font-size: 1.55rem;
+  margin-top: 0.3rem;
+}
+
+.ai-panel,
+.brief-panel {
+  margin-top: 1rem;
+}
+
+.ai-panel p,
+.brief-panel li {
+  color: #cbd5e1;
+  line-height: 1.55;
+}
+
+.brief-panel ul {
+  margin: 0;
+  padding-left: 1.15rem;
+}
+
+@media (max-width: 1050px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .app-shell {
+    padding: 1rem;
+  }
+}
