@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RoboCode Arena</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero" aria-labelledby="game-title">
+        <p class="eyebrow">Browser battle bot</p>
+        <h1 id="game-title">RoboCode Arena</h1>
+        <p class="intro">
+          Programmed steel meets reflexes. Drive your blue bot, dodge hostile
+          fire, and outlast the red sentry in a neon grid arena.
+        </p>
+      </section>
+
+      <section class="game-card" aria-label="RoboCode game">
+        <div class="hud" aria-live="polite">
+          <div>
+            <span class="label">Player</span>
+            <strong id="player-health">100</strong>
+          </div>
+          <div>
+            <span class="label">Enemy</span>
+            <strong id="enemy-health">100</strong>
+          </div>
+          <div>
+            <span class="label">Score</span>
+            <strong id="score">0</strong>
+          </div>
+          <button id="restart" type="button">Restart</button>
+        </div>
+
+        <canvas id="arena" width="900" height="560" aria-label="Robot combat arena"></canvas>
+
+        <div class="controls">
+          <p><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> move</p>
+          <p><kbd>←</kbd><kbd>→</kbd> rotate turret</p>
+          <p><kbd>Space</kbd> fire</p>
+        </div>
+      </section>
+    </main>
+
+    <script src="game.js"></script>
+  </body>
+</html>
