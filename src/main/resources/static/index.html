@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PolyLab Tactics</title>
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; background: #0f172a; color: #e2e8f0; display: flex; }
+    #sidebar { width: 320px; padding: 16px; background: #111827; height: 100vh; box-sizing: border-box; overflow: auto; }
+    canvas { background: #1e293b; display: block; margin: 16px; border: 1px solid #334155; }
+    button, select { width: 100%; margin: 6px 0; padding: 10px; border-radius: 6px; border: 1px solid #475569; background: #1d4ed8; color: white; }
+    .secondary { background: #334155; }
+    .panel { border: 1px solid #334155; border-radius: 8px; padding: 12px; margin-bottom: 12px; }
+    small { color: #94a3b8; }
+  </style>
+</head>
+<body>
+  <div id="sidebar">
+    <h1>PolyLab Tactics</h1>
+    <div class="panel">
+      <button id="newGameBtn">New Game</button>
+      <button id="endTurnBtn" class="secondary">End Turn</button>
+      <select id="researchSelect"></select>
+      <button id="researchBtn">Research Selected Tech</button>
+      <select id="recruitSelect">
+        <option>WARRIOR</option>
+        <option>ARCHER</option>
+        <option>RIDER</option>
+        <option>DEFENDER</option>
+      </select>
+      <button id="recruitBtn" class="secondary">Recruit At Selected City</button>
+      <button id="buildBtn" class="secondary">Build Improvement On Selected Tile</button>
+    </div>
+    <div class="panel">
+      <div id="status"></div>
+      <div id="details"></div>
+    </div>
+    <div class="panel">
+      <strong>Gameplay Flow</strong>
+      <ol>
+        <li>Start a game and explore fogged land.</li>
+        <li>Select units to move onto villages or into combat.</li>
+        <li>Research techs to unlock stronger units and economy.</li>
+        <li>End turn so the AI expands, recruits, and attacks.</li>
+        <li>Win by owning the only remaining capital, or by score at turn 40.</li>
+      </ol>
+    </div>
+  </div>
+  <canvas id="game" width="840" height="600"></canvas>
+  <script src="app.js"></script>
+</body>
+</html>
