@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Codex</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <nav class="topbar">
+          <div class="brand">
+            <span class="brand-mark">C</span>
+            <span>Codex</span>
+          </div>
+          <button class="ghost-button" id="theme-toggle" type="button" aria-label="Toggle theme">
+            Toggle theme
+          </button>
+        </nav>
+
+        <div class="hero-copy">
+          <p class="eyebrow">Build faster with an AI-native workspace</p>
+          <h1>Codex turns ideas into shippable software.</h1>
+          <p class="hero-text">
+            Plan features, generate implementation steps, and track delivery from a single focused
+            dashboard designed for modern teams.
+          </p>
+          <div class="hero-actions">
+            <a class="primary-button" href="#workspace">Explore the workspace</a>
+            <a class="secondary-button" href="#roadmap">View roadmap</a>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section class="stats-grid" aria-label="Product highlights">
+          <article>
+            <strong>89%</strong>
+            <span>faster project kickoff</span>
+          </article>
+          <article>
+            <strong>24/7</strong>
+            <span>AI implementation support</span>
+          </article>
+          <article>
+            <strong>3x</strong>
+            <span>clearer sprint planning</span>
+          </article>
+        </section>
+
+        <section class="workspace" id="workspace">
+          <div class="section-heading">
+            <p class="eyebrow">Workspace</p>
+            <h2>Everything your product team needs in one command center.</h2>
+          </div>
+
+          <div class="workspace-grid">
+            <article class="card featured-card">
+              <div class="card-header">
+                <span class="pill pill-live">Live sprint</span>
+                <span class="muted">Sprint 14 · 6 tasks active</span>
+              </div>
+              <h3>Delivery board</h3>
+              <ul class="task-list">
+                <li><span>Research auth flow improvements</span><strong>Done</strong></li>
+                <li><span>Generate API integration plan</span><strong>In review</strong></li>
+                <li><span>Ship dashboard accessibility updates</span><strong>Today</strong></li>
+              </ul>
+            </article>
+
+            <article class="card">
+              <h3>AI copilots</h3>
+              <p>
+                Create implementation briefs, edge-case checklists, and release notes without
+                leaving the flow of work.
+              </p>
+            </article>
+
+            <article class="card">
+              <h3>Shared context</h3>
+              <p>
+                Keep requirements, decisions, and delivery status synced across product, design,
+                and engineering.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="roadmap" id="roadmap">
+          <div class="section-heading">
+            <p class="eyebrow">Roadmap</p>
+            <h2>See what Codex helps your team deliver next.</h2>
+          </div>
+
+          <div class="timeline">
+            <article class="timeline-item">
+              <span class="timeline-step">01</span>
+              <div>
+                <h3>Capture the goal</h3>
+                <p>Describe the feature, bug, or initiative in plain language.</p>
+              </div>
+            </article>
+            <article class="timeline-item">
+              <span class="timeline-step">02</span>
+              <div>
+                <h3>Generate the plan</h3>
+                <p>Codex proposes milestones, risks, and execution steps in seconds.</p>
+              </div>
+            </article>
+            <article class="timeline-item">
+              <span class="timeline-step">03</span>
+              <div>
+                <h3>Track progress</h3>
+                <p>Monitor blockers and momentum with a living status board.</p>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
