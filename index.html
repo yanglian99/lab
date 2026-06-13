@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Canvas Platformer - World 1-1 Inspired</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      body {
+        margin: 0;
+        background: linear-gradient(#5c94fc, #d6f0ff);
+        color: #111;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      header {
+        max-width: 960px;
+        width: 100%;
+        padding: 1rem 1.5rem 0.5rem;
+        box-sizing: border-box;
+      }
+
+      h1 {
+        margin: 0 0 0.5rem;
+      }
+
+      p,
+      li {
+        line-height: 1.4;
+      }
+
+      .game-shell {
+        width: min(960px, 100vw);
+        padding: 0 1rem 1.5rem;
+        box-sizing: border-box;
+      }
+
+      canvas {
+        width: 100%;
+        border: 4px solid #111;
+        box-sizing: border-box;
+        image-rendering: pixelated;
+        background: #5c94fc;
+        display: block;
+      }
+
+      .panel {
+        background: rgba(255, 255, 255, 0.88);
+        border: 2px solid #111;
+        padding: 0.75rem 1rem;
+        margin-top: 1rem;
+      }
+
+      kbd {
+        border: 1px solid #444;
+        border-bottom-width: 2px;
+        border-radius: 4px;
+        padding: 0.1rem 0.35rem;
+        background: #f7f7f7;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>World 1-1 Inspired Canvas Platformer</h1>
+      <p>
+        A complete JavaScript + HTML5 Canvas platformer with scrolling, enemies,
+        power-ups, a bonus room, score, lives, timer, and an end-level flag.
+      </p>
+    </header>
+
+    <main class="game-shell">
+      <canvas id="game" width="960" height="540" aria-label="Platformer game canvas"></canvas>
+      <section class="panel">
+        <strong>Controls:</strong>
+        <ul>
+          <li><kbd>←</kbd> / <kbd>→</kbd> or <kbd>A</kbd> / <kbd>D</kbd>: Move</li>
+          <li><kbd>Space</kbd>, <kbd>W</kbd>, or <kbd>↑</kbd>: Jump</li>
+          <li><kbd>S</kbd> / <kbd>↓</kbd>: Enter pipe when standing on the enterable pipe</li>
+          <li><kbd>R</kbd>: Restart after game over or victory</li>
+        </ul>
+      </section>
+    </main>
+
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
