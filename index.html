@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mini Empires</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="panel hud">
+        <div>
+          <p class="eyebrow">Age of Empires II inspired prototype</p>
+          <h1>Mini Empires</h1>
+          <p class="subtitle">
+            Grow your town, gather resources, age up, and survive raids.
+          </p>
+        </div>
+
+        <section class="stats-grid" id="resources"></section>
+
+        <section>
+          <div class="section-title">Town center</div>
+          <div class="actions">
+            <button data-action="villager">Train Villager</button>
+            <button data-action="militia">Train Militia</button>
+            <button data-action="farm">Build Farm</button>
+            <button data-action="house">Build House</button>
+            <button data-action="tower">Build Watch Tower</button>
+            <button data-action="age">Advance Age</button>
+          </div>
+        </section>
+
+        <section>
+          <div class="section-title">Assignments</div>
+          <div class="actions compact">
+            <button data-assign="food">+ Food</button>
+            <button data-assign="wood">+ Wood</button>
+            <button data-assign="gold">+ Gold</button>
+            <button data-assign="stone">+ Stone</button>
+            <button data-assign="idle">Make Idle</button>
+          </div>
+          <p class="hint">Choose a task to move one idle villager, or pull one worker from another job.</p>
+        </section>
+
+        <section>
+          <div class="section-title">Objectives</div>
+          <ul class="objectives" id="objectives"></ul>
+        </section>
+      </aside>
+
+      <main class="panel battlefield">
+        <canvas id="game" width="960" height="600"></canvas>
+        <div class="overlay top-left" id="statusBanner"></div>
+        <div class="overlay bottom" id="log"></div>
+      </main>
+    </div>
+
+    <template id="stat-template">
+      <article class="stat-card">
+        <span class="label"></span>
+        <strong class="value"></strong>
+      </article>
+    </template>
+
+    <script src="game.js"></script>
+  </body>
+</html>
