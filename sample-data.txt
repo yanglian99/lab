@@ -1,0 +1,4 @@
+Autoresearch in Java explores small language-model experiments automatically.
+It loads a text corpus, trains a compact n-gram language model, and compares validation bits per byte.
+The runner keeps the strongest configuration and proposes nearby mutations for the next experiment.
+This is a lightweight Java port inspired by Karpathy's autoresearch repository.
