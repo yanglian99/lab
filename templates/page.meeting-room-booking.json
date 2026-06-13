@@ -1,0 +1,73 @@
+{
+  "sections": {
+    "main": {
+      "type": "meeting-room-booking",
+      "settings": {
+        "eyebrow": "LiquidSpace meeting rooms",
+        "heading": "Book a meeting room with LiquidSpace",
+        "description": "<p>Promote featured rooms and send visitors straight to your LiquidSpace booking links for fast reservations.</p>",
+        "primary_button_label": "Browse all rooms",
+        "primary_button_link": "https://liquidspace.com/",
+        "secondary_button_label": "Talk to sales",
+        "secondary_button_link": "https://liquidspace.com/contact",
+        "trust_note": "Flexible booking for hourly meetings, team offsites, and client presentations.",
+        "color_scheme": "scheme-1"
+      },
+      "blocks": {
+        "room_1": {
+          "type": "room",
+          "settings": {
+            "location": "San Francisco, CA",
+            "room_name": "Market Street Boardroom",
+            "availability": "Available today",
+            "capacity": "Up to 12 guests",
+            "price": "$75/hour",
+            "hours": "8:00 AM - 6:00 PM",
+            "features": "Video conferencing, whiteboard, coffee service, guest Wi-Fi",
+            "booking_label": "Book on LiquidSpace",
+            "booking_url": "https://liquidspace.com/",
+            "details_url": "https://liquidspace.com/"
+          }
+        },
+        "room_2": {
+          "type": "room",
+          "settings": {
+            "location": "New York, NY",
+            "room_name": "Bryant Park Huddle",
+            "availability": "3 slots left",
+            "capacity": "Up to 6 guests",
+            "price": "$48/hour",
+            "hours": "7:30 AM - 8:00 PM",
+            "features": "Display screen, Zoom setup, natural light",
+            "booking_label": "Reserve now",
+            "booking_url": "https://liquidspace.com/",
+            "details_url": "https://liquidspace.com/"
+          }
+        },
+        "room_3": {
+          "type": "room",
+          "settings": {
+            "location": "Austin, TX",
+            "room_name": "Congress Avenue Suite",
+            "availability": "Book this week",
+            "capacity": "Up to 20 guests",
+            "price": "$110/hour",
+            "hours": "9:00 AM - 7:00 PM",
+            "features": "Dual screens, speakerphone, catering add-ons",
+            "booking_label": "Book team space",
+            "booking_url": "https://liquidspace.com/",
+            "details_url": "https://liquidspace.com/"
+          }
+        }
+      },
+      "block_order": [
+        "room_1",
+        "room_2",
+        "room_3"
+      ]
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

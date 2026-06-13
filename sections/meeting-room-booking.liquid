@@ -1,0 +1,379 @@
+<section class="liquidspace-booking color-{{ section.settings.color_scheme }}">
+  <div class="page-width liquidspace-booking__inner">
+    <div class="liquidspace-booking__hero">
+      {% if section.settings.eyebrow != blank %}
+        <p class="liquidspace-booking__eyebrow">{{ section.settings.eyebrow }}</p>
+      {% endif %}
+
+      <h1 class="liquidspace-booking__title">{{ section.settings.heading }}</h1>
+
+      {% if section.settings.description != blank %}
+        <div class="liquidspace-booking__description rte">{{ section.settings.description }}</div>
+      {% endif %}
+
+      <div class="liquidspace-booking__hero-actions">
+        {% if section.settings.primary_button_label != blank and section.settings.primary_button_link != blank %}
+          <a class="button" href="{{ section.settings.primary_button_link }}">
+            {{ section.settings.primary_button_label }}
+          </a>
+        {% endif %}
+
+        {% if section.settings.secondary_button_label != blank and section.settings.secondary_button_link != blank %}
+          <a class="button button--secondary" href="{{ section.settings.secondary_button_link }}">
+            {{ section.settings.secondary_button_label }}
+          </a>
+        {% endif %}
+      </div>
+
+      {% if section.settings.trust_note != blank %}
+        <p class="liquidspace-booking__trust-note">{{ section.settings.trust_note }}</p>
+      {% endif %}
+    </div>
+
+    <div class="liquidspace-booking__grid">
+      {% for block in section.blocks %}
+        <article class="liquidspace-booking__card" {{ block.shopify_attributes }}>
+          <div class="liquidspace-booking__card-header">
+            <div>
+              <p class="liquidspace-booking__location">{{ block.settings.location }}</p>
+              <h2>{{ block.settings.room_name }}</h2>
+            </div>
+            {% if block.settings.availability != blank %}
+              <span class="liquidspace-booking__badge">{{ block.settings.availability }}</span>
+            {% endif %}
+          </div>
+
+          <ul class="liquidspace-booking__meta list-unstyled" role="list">
+            {% if block.settings.capacity != blank %}
+              <li><strong>Capacity:</strong> {{ block.settings.capacity }}</li>
+            {% endif %}
+            {% if block.settings.price != blank %}
+              <li><strong>Price:</strong> {{ block.settings.price }}</li>
+            {% endif %}
+            {% if block.settings.hours != blank %}
+              <li><strong>Hours:</strong> {{ block.settings.hours }}</li>
+            {% endif %}
+          </ul>
+
+          {% if block.settings.features != blank %}
+            <p class="liquidspace-booking__features">{{ block.settings.features }}</p>
+          {% endif %}
+
+          <div class="liquidspace-booking__card-actions">
+            {% if block.settings.booking_url != blank %}
+              <a class="button" href="{{ block.settings.booking_url }}">
+                {{ block.settings.booking_label | default: 'Book room' }}
+              </a>
+            {% endif %}
+
+            {% if block.settings.details_url != blank %}
+              <a class="liquidspace-booking__details-link" href="{{ block.settings.details_url }}">
+                View details
+              </a>
+            {% endif %}
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+
+  <style>
+    .liquidspace-booking {
+      padding: 4rem 0;
+      background: linear-gradient(180deg, rgba(var(--color-background), 1) 0%, rgba(var(--color-background), 0.94) 100%);
+    }
+
+    .liquidspace-booking__inner {
+      display: grid;
+      gap: 2.5rem;
+    }
+
+    .liquidspace-booking__hero {
+      max-width: 58rem;
+    }
+
+    .liquidspace-booking__eyebrow {
+      margin: 0 0 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 1.2rem;
+      color: rgba(var(--color-foreground), 0.7);
+    }
+
+    .liquidspace-booking__title {
+      margin: 0;
+    }
+
+    .liquidspace-booking__description {
+      margin-top: 1rem;
+      color: rgba(var(--color-foreground), 0.82);
+    }
+
+    .liquidspace-booking__hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .liquidspace-booking__trust-note {
+      margin: 1rem 0 0;
+      color: rgba(var(--color-foreground), 0.7);
+      font-size: 1.4rem;
+    }
+
+    .liquidspace-booking__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
+      gap: 1.5rem;
+    }
+
+    .liquidspace-booking__card {
+      display: grid;
+      gap: 1.25rem;
+      padding: 1.75rem;
+      border-radius: 1.6rem;
+      border: 0.1rem solid rgba(var(--color-foreground), 0.12);
+      background: rgba(var(--color-background), 0.98);
+      box-shadow: 0 1.2rem 2.4rem rgba(0, 0, 0, 0.05);
+    }
+
+    .liquidspace-booking__card-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: start;
+    }
+
+    .liquidspace-booking__location {
+      margin: 0 0 0.35rem;
+      color: rgba(var(--color-foreground), 0.7);
+      font-size: 1.3rem;
+    }
+
+    .liquidspace-booking__card h2 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    .liquidspace-booking__badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.45rem 0.75rem;
+      border-radius: 999px;
+      background: rgba(31, 129, 76, 0.12);
+      color: #0f6d38;
+      font-size: 1.2rem;
+      white-space: nowrap;
+    }
+
+    .liquidspace-booking__meta {
+      margin: 0;
+      display: grid;
+      gap: 0.55rem;
+      color: rgba(var(--color-foreground), 0.85);
+    }
+
+    .liquidspace-booking__features {
+      margin: 0;
+      color: rgba(var(--color-foreground), 0.78);
+    }
+
+    .liquidspace-booking__card-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .liquidspace-booking__details-link {
+      font-weight: 600;
+      text-underline-offset: 0.2rem;
+    }
+
+    @media screen and (max-width: 749px) {
+      .liquidspace-booking {
+        padding: 3rem 0;
+      }
+
+      .liquidspace-booking__card-header {
+        flex-direction: column;
+      }
+    }
+  </style>
+</section>
+
+{% schema %}
+{
+  "name": "LiquidSpace booking",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "LiquidSpace meeting rooms"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Book a meeting room with LiquidSpace"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Highlight top rooms, show pricing and amenities, and send visitors directly to the right LiquidSpace booking page.</p>"
+    },
+    {
+      "type": "text",
+      "id": "primary_button_label",
+      "label": "Primary button label",
+      "default": "Browse all rooms"
+    },
+    {
+      "type": "url",
+      "id": "primary_button_link",
+      "label": "Primary button link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_label",
+      "label": "Secondary button label",
+      "default": "Talk to sales"
+    },
+    {
+      "type": "url",
+      "id": "secondary_button_link",
+      "label": "Secondary button link"
+    },
+    {
+      "type": "text",
+      "id": "trust_note",
+      "label": "Trust note",
+      "default": "Flexible booking for hourly meetings, team offsites, and client presentations."
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "room",
+      "name": "Room",
+      "settings": [
+        {
+          "type": "text",
+          "id": "location",
+          "label": "Location",
+          "default": "San Francisco, CA"
+        },
+        {
+          "type": "text",
+          "id": "room_name",
+          "label": "Room name",
+          "default": "Market Street Boardroom"
+        },
+        {
+          "type": "text",
+          "id": "availability",
+          "label": "Availability badge",
+          "default": "Available today"
+        },
+        {
+          "type": "text",
+          "id": "capacity",
+          "label": "Capacity",
+          "default": "Up to 12 guests"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Price",
+          "default": "$75/hour"
+        },
+        {
+          "type": "text",
+          "id": "hours",
+          "label": "Hours",
+          "default": "8:00 AM - 6:00 PM"
+        },
+        {
+          "type": "text",
+          "id": "features",
+          "label": "Features",
+          "default": "Video conferencing, whiteboard, coffee service, guest Wi-Fi"
+        },
+        {
+          "type": "text",
+          "id": "booking_label",
+          "label": "Booking button label",
+          "default": "Book on LiquidSpace"
+        },
+        {
+          "type": "url",
+          "id": "booking_url",
+          "label": "Booking URL"
+        },
+        {
+          "type": "url",
+          "id": "details_url",
+          "label": "Details URL"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "LiquidSpace booking",
+      "blocks": [
+        {
+          "type": "room",
+          "settings": {
+            "location": "San Francisco, CA",
+            "room_name": "Market Street Boardroom",
+            "availability": "Available today",
+            "capacity": "Up to 12 guests",
+            "price": "$75/hour",
+            "hours": "8:00 AM - 6:00 PM",
+            "features": "Video conferencing, whiteboard, coffee service, guest Wi-Fi",
+            "booking_label": "Book on LiquidSpace"
+          }
+        },
+        {
+          "type": "room",
+          "settings": {
+            "location": "New York, NY",
+            "room_name": "Bryant Park Huddle",
+            "availability": "3 slots left",
+            "capacity": "Up to 6 guests",
+            "price": "$48/hour",
+            "hours": "7:30 AM - 8:00 PM",
+            "features": "Display screen, Zoom setup, natural light",
+            "booking_label": "Reserve now"
+          }
+        },
+        {
+          "type": "room",
+          "settings": {
+            "location": "Austin, TX",
+            "room_name": "Congress Avenue Suite",
+            "availability": "Book this week",
+            "capacity": "Up to 20 guests",
+            "price": "$110/hour",
+            "hours": "9:00 AM - 7:00 PM",
+            "features": "Dual screens, speakerphone, catering add-ons",
+            "booking_label": "Book team space"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
