@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mini Doom Lab</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="hud-shell">
+      <canvas id="game" width="960" height="540" aria-label="Mini Doom Lab"></canvas>
+      <div class="hud top-left">
+        <h1>MINI DOOM LAB</h1>
+        <p>WASD move · Mouse / Arrow keys look · Shift sprint · Space shoot · R restart</p>
+      </div>
+      <div class="hud top-right" id="status"></div>
+      <div class="crosshair" aria-hidden="true"></div>
+      <div class="hud bottom-left" id="log">Click the game to lock pointer and start hunting.</div>
+    </div>
+    <script src="game.js"></script>
+  </body>
+</html>
