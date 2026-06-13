@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minecraft Builder Lab</title>
+    <style>
+      :root {
+        --bg: #111827;
+        --panel: #1f2937;
+        --panel-border: #374151;
+        --text: #f9fafb;
+        --muted: #d1d5db;
+        --accent: #84cc16;
+        --shadow: rgba(0, 0, 0, 0.28);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Arial, Helvetica, sans-serif;
+        background:
+          linear-gradient(rgba(125, 211, 252, 0.42), rgba(59, 130, 246, 0.2)),
+          linear-gradient(#87ceeb 0 58%, #4ade80 58% 100%);
+        color: var(--text);
+      }
+
+      .app {
+        width: min(1100px, calc(100vw - 2rem));
+        margin: 1.5rem auto;
+        display: grid;
+        grid-template-columns: 320px 1fr;
+        gap: 1rem;
+      }
+
+      .panel {
+        background: rgba(17, 24, 39, 0.92);
+        border: 4px solid var(--panel-border);
+        box-shadow: 0 12px 28px var(--shadow);
+      }
+
+      .sidebar {
+        padding: 1rem;
+      }
+
+      h1,
+      h2,
+      p {
+        margin-top: 0;
+      }
+
+      .toolbar {
+        display: grid;
+        gap: 0.75rem;
+      }
+
+      .palette {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.5rem;
+      }
+
+      .block-btn,
+      .action-btn {
+        border: 3px solid #0f172a;
+        background: #374151;
+        color: var(--text);
+        padding: 0.75rem;
+        cursor: pointer;
+        font-weight: bold;
+        transition: transform 120ms ease, border-color 120ms ease;
+      }
+
+      .block-btn:hover,
+      .action-btn:hover,
+      .block-btn.active {
+        transform: translateY(-2px);
+        border-color: var(--accent);
+      }
+
+      .block-btn span {
+        display: block;
+        width: 100%;
+        aspect-ratio: 1;
+        margin-bottom: 0.4rem;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.5rem;
+      }
+
+      .stats {
+        margin-top: 1rem;
+        padding: 0.75rem;
+        background: rgba(55, 65, 81, 0.85);
+        border: 2px solid #4b5563;
+      }
+
+      .world-wrapper {
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .world {
+        display: grid;
+        grid-template-columns: repeat(16, 1fr);
+        gap: 2px;
+        background: #0b1020;
+        padding: 10px;
+        border: 4px solid #4b5563;
+      }
+
+      .cell {
+        aspect-ratio: 1;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        cursor: crosshair;
+      }
+
+      .sky {
+        background: linear-gradient(145deg, #93c5fd, #60a5fa);
+      }
+
+      .grass {
+        background: linear-gradient(180deg, #4ade80 0 35%, #8b5a2b 35% 100%);
+      }
+
+      .dirt {
+        background: linear-gradient(145deg, #8b5a2b, #6b4423);
+      }
+
+      .stone {
+        background: linear-gradient(145deg, #9ca3af, #6b7280);
+      }
+
+      .water {
+        background: linear-gradient(145deg, #38bdf8, #2563eb);
+      }
+
+      .wood {
+        background: linear-gradient(145deg, #b45309, #78350f);
+      }
+
+      .leaves {
+        background: linear-gradient(145deg, #22c55e, #166534);
+      }
+
+      .sand {
+        background: linear-gradient(145deg, #fde68a, #eab308);
+      }
+
+      .hud {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        align-items: center;
+        color: white;
+      }
+
+      .seed {
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      .tip {
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      @media (max-width: 900px) {
+        .app {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="app">
+      <aside class="panel sidebar">
+        <h1>Minecraft Builder Lab</h1>
+        <p>
+          Paint a tiny voxel-style landscape in your browser. Pick a block,
+          click the world, and build your own miniature scene.
+        </p>
+
+        <section class="toolbar">
+          <div>
+            <h2>Blocks</h2>
+            <div class="palette" id="palette"></div>
+          </div>
+
+          <div>
+            <h2>Actions</h2>
+            <div class="actions">
+              <button class="action-btn" id="fillTerrain">Fill terrain</button>
+              <button class="action-btn" id="growTree">Grow tree</button>
+              <button class="action-btn" id="makeLake">Make lake</button>
+              <button class="action-btn" id="clearWorld">Clear world</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="stats">
+          <strong>Build stats</strong>
+          <p id="selectedBlock">Selected block: Grass</p>
+          <p id="placedCount">Blocks placed: 0</p>
+          <p class="tip">Tip: double-click a tile to erase it back to sky.</p>
+        </section>
+      </aside>
+
+      <section class="panel world-wrapper">
+        <div class="hud">
+          <div>
+            <h2>Your overworld</h2>
+            <p class="seed">Seed: GPT-5.2-Codex Plains</p>
+          </div>
+          <p class="tip">16 × 16 editable block grid</p>
+        </div>
+        <div class="world" id="world" aria-label="Minecraft inspired building grid"></div>
+      </section>
+    </main>
+
+    <script>
+      const worldSize = 16;
+      const world = document.getElementById('world');
+      const palette = document.getElementById('palette');
+      const selectedBlockLabel = document.getElementById('selectedBlock');
+      const placedCountLabel = document.getElementById('placedCount');
+
+      const blockTypes = [
+        { name: 'Grass', className: 'grass' },
+        { name: 'Dirt', className: 'dirt' },
+        { name: 'Stone', className: 'stone' },
+        { name: 'Water', className: 'water' },
+        { name: 'Wood', className: 'wood' },
+        { name: 'Leaves', className: 'leaves' },
+        { name: 'Sand', className: 'sand' },
+      ];
+
+      let selectedBlock = blockTypes[0];
+      let placedCount = 0;
+      const cells = [];
+
+      function updateStats() {
+        selectedBlockLabel.textContent = `Selected block: ${selectedBlock.name}`;
+        placedCountLabel.textContent = `Blocks placed: ${placedCount}`;
+      }
+
+      function setCellBlock(cell, className) {
+        const previous = cell.dataset.block;
+        if (previous === 'sky' && className !== 'sky') {
+          placedCount += 1;
+        } else if (previous !== 'sky' && className === 'sky') {
+          placedCount = Math.max(0, placedCount - 1);
+        }
+        cell.className = `cell ${className}`;
+        cell.dataset.block = className;
+        updateStats();
+      }
+
+      function createPalette() {
+        blockTypes.forEach((block, index) => {
+          const button = document.createElement('button');
+          button.className = `block-btn ${index === 0 ? 'active' : ''}`;
+          button.innerHTML = `<span class="${block.className}"></span>${block.name}`;
+          button.addEventListener('click', () => {
+            selectedBlock = block;
+            document
+              .querySelectorAll('.block-btn')
+              .forEach((btn) => btn.classList.remove('active'));
+            button.classList.add('active');
+            updateStats();
+          });
+          palette.appendChild(button);
+        });
+      }
+
+      function createWorld() {
+        for (let row = 0; row < worldSize; row += 1) {
+          for (let col = 0; col < worldSize; col += 1) {
+            const cell = document.createElement('button');
+            cell.type = 'button';
+            cell.className = 'cell sky';
+            cell.dataset.block = 'sky';
+            cell.dataset.row = row;
+            cell.dataset.col = col;
+            cell.addEventListener('click', () => setCellBlock(cell, selectedBlock.className));
+            cell.addEventListener('dblclick', () => setCellBlock(cell, 'sky'));
+            world.appendChild(cell);
+            cells.push(cell);
+          }
+        }
+      }
+
+      function getCell(row, col) {
+        if (row < 0 || row >= worldSize || col < 0 || col >= worldSize) return null;
+        return cells[row * worldSize + col];
+      }
+
+      function clearWorld() {
+        cells.forEach((cell) => {
+          cell.className = 'cell sky';
+          cell.dataset.block = 'sky';
+        });
+        placedCount = 0;
+        updateStats();
+      }
+
+      function fillTerrain() {
+        clearWorld();
+        for (let row = 9; row < worldSize; row += 1) {
+          for (let col = 0; col < worldSize; col += 1) {
+            const cell = getCell(row, col);
+            if (row === 9) {
+              setCellBlock(cell, 'grass');
+            } else if (row < 12) {
+              setCellBlock(cell, 'dirt');
+            } else {
+              setCellBlock(cell, 'stone');
+            }
+          }
+        }
+      }
+
+      function growTree() {
+        fillTerrain();
+        const trunkCol = 11;
+        for (let row = 6; row <= 8; row += 1) {
+          setCellBlock(getCell(row, trunkCol), 'wood');
+        }
+        [
+          [4, 10], [4, 11], [4, 12],
+          [5, 9], [5, 10], [5, 11], [5, 12], [5, 13],
+          [6, 9], [6, 10], [6, 11], [6, 12], [6, 13],
+        ].forEach(([row, col]) => setCellBlock(getCell(row, col), 'leaves'));
+      }
+
+      function makeLake() {
+        fillTerrain();
+        [
+          [9, 3], [9, 4], [9, 5],
+          [10, 2], [10, 3], [10, 4], [10, 5], [10, 6],
+          [11, 3], [11, 4], [11, 5],
+        ].forEach(([row, col]) => setCellBlock(getCell(row, col), 'water'));
+        [
+          [9, 2], [9, 6], [10, 1], [10, 7], [11, 2], [11, 6]
+        ].forEach(([row, col]) => setCellBlock(getCell(row, col), 'sand'));
+      }
+
+      document.getElementById('clearWorld').addEventListener('click', clearWorld);
+      document.getElementById('fillTerrain').addEventListener('click', fillTerrain);
+      document.getElementById('growTree').addEventListener('click', growTree);
+      document.getElementById('makeLake').addEventListener('click', makeLake);
+
+      createPalette();
+      createWorld();
+      fillTerrain();
+    </script>
+  </body>
+</html>
