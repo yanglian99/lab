@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mini Polytopia</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Turn-based strategy prototype</p>
+          <h1>Mini Polytopia</h1>
+          <p class="subtitle">
+            Explore a procedural map, found cities, gather stars, and outscore the rival tribe.
+          </p>
+        </div>
+        <button id="endTurnBtn" class="primary-btn">End Turn</button>
+      </header>
+
+      <main class="layout">
+        <section class="board-panel">
+          <div class="legend">
+            <span><i class="tile grass"></i>Grass</span>
+            <span><i class="tile forest"></i>Forest</span>
+            <span><i class="tile mountain"></i>Mountain</span>
+            <span><i class="tile water"></i>Water</span>
+            <span><i class="token village"></i>Village</span>
+            <span><i class="token city"></i>City</span>
+          </div>
+          <div id="board" class="board" aria-label="Game board"></div>
+        </section>
+
+        <aside class="sidebar">
+          <section class="card status-card">
+            <h2>Realm Status</h2>
+            <div id="turnInfo" class="stat-grid"></div>
+          </section>
+
+          <section class="card action-card">
+            <h2>Selected Tile</h2>
+            <div id="tileInfo" class="tile-info">Select a tile to inspect it.</div>
+            <div class="actions">
+              <button id="moveBtn">Move / Attack</button>
+              <button id="settleBtn">Found City</button>
+              <button id="harvestBtn">Harvest</button>
+            </div>
+          </section>
+
+          <section class="card feed-card">
+            <h2>Event Log</h2>
+            <ul id="log"></ul>
+          </section>
+        </aside>
+      </main>
+    </div>
+
+    <script src="game.js"></script>
+  </body>
+</html>
