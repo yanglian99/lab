@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StarForge Command</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar panel">
+      <h1>StarForge Command</h1>
+      <p class="tagline">A compact RTS inspired by StarCraft: harvest crystals, build troops, and survive the swarm.</p>
+
+      <section>
+        <h2>Objectives</h2>
+        <ul>
+          <li>Mine crystals with drones.</li>
+          <li>Train marines and medics.</li>
+          <li>Destroy the enemy hive before your command core falls.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>How to play</h2>
+        <ul>
+          <li>Click a unit to select it.</li>
+          <li>Right-click the battlefield to move selected units.</li>
+          <li>Drones auto-harvest nearby crystal patches.</li>
+          <li>Use the command panel to train reinforcements.</li>
+        </ul>
+      </section>
+
+      <section class="status-grid">
+        <div>
+          <span>Crystals</span>
+          <strong id="minerals">0</strong>
+        </div>
+        <div>
+          <span>Supply</span>
+          <strong id="supply">0 / 0</strong>
+        </div>
+        <div>
+          <span>Base HP</span>
+          <strong id="baseHp">0</strong>
+        </div>
+        <div>
+          <span>Enemy Hive</span>
+          <strong id="enemyHp">0</strong>
+        </div>
+      </section>
+
+      <section>
+        <h2>Command panel</h2>
+        <div class="controls">
+          <button id="buildDrone">Train Drone <small>50</small></button>
+          <button id="buildMarine">Train Marine <small>75</small></button>
+          <button id="buildMedic">Train Medic <small>90</small></button>
+          <button id="buildDepot">Raise Supply Depot <small>125</small></button>
+        </div>
+      </section>
+
+      <section>
+        <h2>Battle log</h2>
+        <div id="log" class="log"></div>
+      </section>
+    </aside>
+
+    <main class="battlefield panel">
+      <canvas id="game" width="960" height="600" aria-label="RTS battlefield"></canvas>
+      <div id="overlay" class="overlay hidden"></div>
+    </main>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
