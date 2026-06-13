@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Island Siege</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #081824;
+        --panel: rgba(6, 24, 37, 0.88);
+        --accent: #4fd1c5;
+        --accent-2: #f6ad55;
+        --danger: #fc8181;
+        --text: #edf2f7;
+        --muted: #a0aec0;
+      }
+
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Inter, system-ui, sans-serif;
+        background: radial-gradient(circle at top, #12324a 0%, var(--bg) 60%);
+        color: var(--text);
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 20px;
+      }
+
+      .shell {
+        width: min(1200px, 100%);
+        display: grid;
+        grid-template-columns: 300px minmax(0, 1fr);
+        gap: 18px;
+      }
+
+      .panel {
+        background: var(--panel);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 18px;
+        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+      }
+
+      .sidebar { padding: 18px; }
+      h1, h2, h3, p { margin: 0; }
+      h1 { font-size: 1.8rem; margin-bottom: 8px; }
+      .tagline { color: var(--muted); margin-bottom: 16px; line-height: 1.4; }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        margin-bottom: 18px;
+      }
+      .stat {
+        background: rgba(255,255,255,0.04);
+        padding: 12px;
+        border-radius: 14px;
+      }
+      .stat span {
+        display: block;
+        color: var(--muted);
+        font-size: 0.82rem;
+        margin-bottom: 6px;
+      }
+      .stat strong { font-size: 1.25rem; }
+      .controls, .mission, .log {
+        background: rgba(255,255,255,0.04);
+        border-radius: 14px;
+        padding: 14px;
+        margin-bottom: 14px;
+      }
+      .controls h3, .mission h3, .log h3 { margin-bottom: 10px; font-size: 1rem; }
+      .buttons { display: grid; gap: 10px; }
+      button {
+        border: 0;
+        border-radius: 12px;
+        padding: 12px 14px;
+        font-weight: 700;
+        color: #06202e;
+        background: linear-gradient(135deg, var(--accent), #81e6d9);
+        cursor: pointer;
+      }
+      button.secondary {
+        background: linear-gradient(135deg, var(--accent-2), #fbd38d);
+      }
+      button:disabled { cursor: not-allowed; opacity: 0.45; }
+      .hint, .log li, .mission p { color: var(--muted); line-height: 1.45; }
+      .log ul {
+        margin: 0;
+        padding-left: 18px;
+        display: grid;
+        gap: 8px;
+      }
+      .board {
+        padding: 18px;
+        display: grid;
+        gap: 14px;
+      }
+      canvas {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        background: linear-gradient(#3fb9ff 0%, #0f7fb8 48%, #0e7490 49%, #1f6f50 100%);
+        border-radius: 18px;
+        border: 1px solid rgba(255,255,255,0.08);
+      }
+      .legend {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        flex-wrap: wrap;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+      .legend strong { color: var(--text); }
+
+      @media (max-width: 900px) {
+        .shell { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <aside class="sidebar panel">
+        <h1>Island Siege</h1>
+        <p class="tagline">A compact browser strategy game inspired by amphibious raids: land troops, unlock reinforcements, and destroy the enemy HQ before your squad is wiped out.</p>
+
+        <section class="stats">
+          <div class="stat"><span>Energy</span><strong id="energy">0</strong></div>
+          <div class="stat"><span>Troops</span><strong id="troops">0</strong></div>
+          <div class="stat"><span>Medkits</span><strong id="medkits">0</strong></div>
+          <div class="stat"><span>Wave</span><strong id="wave">0</strong></div>
+        </section>
+
+        <section class="mission">
+          <h3>Mission</h3>
+          <p>Click the battlefield to drop troops on the beach. Troops auto-advance and attack nearby targets. Use artillery to soften defenses and medkits to keep your push alive.</p>
+        </section>
+
+        <section class="controls">
+          <h3>Abilities</h3>
+          <div class="buttons">
+            <button id="spawnBtn">Deploy 5 troops (20 energy)</button>
+            <button id="artilleryBtn" class="secondary">Fire artillery (25 energy)</button>
+            <button id="medkitBtn" class="secondary">Drop medkit (18 energy)</button>
+            <button id="resetBtn">Restart raid</button>
+          </div>
+          <p class="hint" style="margin-top:10px;">Artillery and medkits target the next click on the battlefield. Troops only deploy onto sandy beach zones.</p>
+        </section>
+
+        <section class="log">
+          <h3>Battle Log</h3>
+          <ul id="log"></ul>
+        </section>
+      </aside>
+
+      <section class="board panel">
+        <canvas id="game" width="960" height="540"></canvas>
+        <div class="legend">
+          <span><strong>Goal:</strong> Destroy the HQ at the far side of the island.</span>
+          <span><strong>Tip:</strong> Knock out cannons first so your infantry can survive the approach.</span>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const canvas = document.getElementById('game');
+      const ctx = canvas.getContext('2d');
+      const ui = {
+        energy: document.getElementById('energy'),
+        troops: document.getElementById('troops'),
+        medkits: document.getElementById('medkits'),
+        wave: document.getElementById('wave'),
+        log: document.getElementById('log'),
+        spawnBtn: document.getElementById('spawnBtn'),
+        artilleryBtn: document.getElementById('artilleryBtn'),
+        medkitBtn: document.getElementById('medkitBtn'),
+        resetBtn: document.getElementById('resetBtn')
+      };
+
+      const gameState = {
+        energy: 40,
+        medkits: 2,
+        wave: 1,
+        troops: [],
+        bullets: [],
+        explosions: [],
+        structures: [],
+        mode: 'deploy',
+        selectedText: 'Deploy troops on the beach.',
+        beachLine: 360,
+        gameOver: false,
+        victory: false,
+        lastTime: 0,
+        lastEnergyTick: 0
+      };
+
+      const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+      const distance = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
+
+      function addLog(text) {
+        const item = document.createElement('li');
+        item.textContent = text;
+        ui.log.prepend(item);
+        while (ui.log.children.length > 6) {
+          ui.log.removeChild(ui.log.lastChild);
+        }
+      }
+
+      function createStructure(x, y, kind) {
+        const config = {
+          cannon: { hp: 70, range: 170, color: '#718096', cooldown: 1.1, damage: 11, radius: 24 },
+          tower: { hp: 55, range: 150, color: '#9f7aea', cooldown: 0.8, damage: 8, radius: 20 },
+          hq: { hp: 220, range: 190, color: '#f56565', cooldown: 1.3, damage: 14, radius: 34 }
+        }[kind];
+        return { x, y, kind, hp: config.hp, maxHp: config.hp, range: config.range, color: config.color, cooldown: 0, fireRate: config.cooldown, damage: config.damage, radius: config.radius };
+      }
+
+      function resetGame() {
+        gameState.energy = 40;
+        gameState.medkits = 2;
+        gameState.wave = 1;
+        gameState.troops = [];
+        gameState.bullets = [];
+        gameState.explosions = [];
+        gameState.structures = [
+          createStructure(700, 250, 'cannon'),
+          createStructure(805, 205, 'tower'),
+          createStructure(780, 340, 'cannon'),
+          createStructure(890, 270, 'hq')
+        ];
+        gameState.mode = 'deploy';
+        gameState.selectedText = 'Deploy troops on the beach.';
+        gameState.gameOver = false;
+        gameState.victory = false;
+        gameState.lastTime = 0;
+        gameState.lastEnergyTick = 0;
+        addLog('New raid launched. Land on the beach and push inland.');
+        syncUi();
+      }
+
+      function syncUi() {
+        ui.energy.textContent = Math.floor(gameState.energy);
+        ui.troops.textContent = gameState.troops.length;
+        ui.medkits.textContent = gameState.medkits;
+        ui.wave.textContent = gameState.wave;
+        ui.spawnBtn.disabled = gameState.energy < 20 || gameState.gameOver;
+        ui.artilleryBtn.disabled = gameState.energy < 25 || gameState.gameOver;
+        ui.medkitBtn.disabled = gameState.medkits <= 0 || gameState.energy < 18 || gameState.gameOver;
+      }
+
+      function spawnTroops(x, y) {
+        if (gameState.energy < 20 || y < gameState.beachLine || gameState.gameOver) return;
+        gameState.energy -= 20;
+        for (let i = 0; i < 5; i += 1) {
+          gameState.troops.push({
+            x: x + (Math.random() * 36 - 18),
+            y: y + (Math.random() * 26 - 13),
+            hp: 30,
+            maxHp: 30,
+            speed: 45 + Math.random() * 12,
+            cooldown: Math.random() * 0.4,
+            radius: 8,
+            damage: 6
+          });
+        }
+        addLog('Landing craft deployed 5 troops.');
+        syncUi();
+      }
+
+      function triggerArtillery(x, y) {
+        if (gameState.energy < 25 || gameState.gameOver) return;
+        gameState.energy -= 25;
+        gameState.explosions.push({ x, y, radius: 15, maxRadius: 70, ttl: 0.45, damage: 45, applied: false, color: '#f6ad55' });
+        addLog('Artillery barrage inbound!');
+        syncUi();
+      }
+
+      function triggerMedkit(x, y) {
+        if (gameState.energy < 18 || gameState.medkits <= 0 || gameState.gameOver) return;
+        gameState.energy -= 18;
+        gameState.medkits -= 1;
+        gameState.explosions.push({ x, y, radius: 18, maxRadius: 60, ttl: 1.2, heal: 16, applied: false, color: '#68d391' });
+        addLog('Medkit dropped on the front line.');
+        syncUi();
+      }
+
+      function findNearestEnemy(unit) {
+        let nearest = null;
+        let bestDistance = Infinity;
+        for (const structure of gameState.structures) {
+          const d = distance(unit, structure);
+          if (d < bestDistance) {
+            bestDistance = d;
+            nearest = structure;
+          }
+        }
+        return { nearest, bestDistance };
+      }
+
+      function updateTroops(dt) {
+        for (const troop of gameState.troops) {
+          troop.cooldown -= dt;
+          const { nearest, bestDistance } = findNearestEnemy(troop);
+          if (!nearest) continue;
+          if (bestDistance > 82) {
+            const dx = nearest.x - troop.x;
+            const dy = nearest.y - troop.y;
+            const len = Math.hypot(dx, dy) || 1;
+            troop.x += (dx / len) * troop.speed * dt;
+            troop.y += (dy / len) * troop.speed * dt;
+          } else if (troop.cooldown <= 0) {
+            troop.cooldown = 0.42;
+            gameState.bullets.push({ x: troop.x, y: troop.y, target: nearest, speed: 250, damage: troop.damage, friendly: true });
+          }
+        }
+        gameState.troops = gameState.troops.filter((troop) => troop.hp > 0);
+      }
+
+      function updateStructures(dt) {
+        for (const structure of gameState.structures) {
+          structure.cooldown -= dt;
+          const target = gameState.troops.find((troop) => distance(troop, structure) <= structure.range);
+          if (target && structure.cooldown <= 0) {
+            structure.cooldown = structure.fireRate;
+            gameState.bullets.push({ x: structure.x, y: structure.y, target, speed: 220, damage: structure.damage, friendly: false });
+          }
+        }
+        gameState.structures = gameState.structures.filter((structure) => structure.hp > 0);
+      }
+
+      function updateBullets(dt) {
+        for (const bullet of gameState.bullets) {
+          if (!bullet.target || bullet.target.hp <= 0) {
+            bullet.done = true;
+            continue;
+          }
+          const dx = bullet.target.x - bullet.x;
+          const dy = bullet.target.y - bullet.y;
+          const len = Math.hypot(dx, dy) || 1;
+          bullet.x += (dx / len) * bullet.speed * dt;
+          bullet.y += (dy / len) * bullet.speed * dt;
+          if (distance(bullet, bullet.target) < 10) {
+            bullet.target.hp -= bullet.damage;
+            bullet.done = true;
+            gameState.explosions.push({ x: bullet.x, y: bullet.y, radius: 8, maxRadius: 16, ttl: 0.18, applied: true, color: bullet.friendly ? '#90cdf4' : '#fc8181' });
+          }
+        }
+        gameState.bullets = gameState.bullets.filter((bullet) => !bullet.done);
+      }
+
+      function updateExplosions(dt) {
+        for (const effect of gameState.explosions) {
+          effect.ttl -= dt;
+          effect.radius = clamp(effect.radius + dt * effect.maxRadius * 2.4, effect.radius, effect.maxRadius);
+          if (!effect.applied) {
+            effect.applied = true;
+            if (effect.damage) {
+              for (const structure of gameState.structures) {
+                if (distance(effect, structure) <= effect.maxRadius) {
+                  structure.hp -= effect.damage;
+                }
+              }
+            }
+            if (effect.heal) {
+              for (const troop of gameState.troops) {
+                if (distance(effect, troop) <= effect.maxRadius) {
+                  troop.hp = Math.min(troop.maxHp, troop.hp + effect.heal);
+                }
+              }
+            }
+          }
+        }
+        gameState.explosions = gameState.explosions.filter((effect) => effect.ttl > 0);
+      }
+
+      function checkGameState() {
+        const hq = gameState.structures.find((structure) => structure.kind === 'hq');
+        if (!hq && !gameState.victory) {
+          gameState.victory = true;
+          gameState.gameOver = true;
+          addLog('Enemy HQ destroyed. Island secured!');
+        } else if (!gameState.troops.length && gameState.energy < 20 && !gameState.gameOver) {
+          gameState.gameOver = true;
+          addLog('Raid failed. Regroup and try a new landing zone.');
+        }
+      }
+
+      function drawIsland() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#2c7a7b';
+        ctx.beginPath();
+        ctx.moveTo(210, 155);
+        ctx.bezierCurveTo(340, 110, 640, 95, 930, 170);
+        ctx.lineTo(960, 380);
+        ctx.bezierCurveTo(800, 420, 520, 455, 240, 420);
+        ctx.lineTo(120, 360);
+        ctx.bezierCurveTo(110, 275, 150, 190, 210, 155);
+        ctx.fill();
+
+        ctx.fillStyle = '#f6e05e';
+        ctx.beginPath();
+        ctx.moveTo(110, 360);
+        ctx.quadraticCurveTo(260, 330, 390, 352);
+        ctx.lineTo(425, 410);
+        ctx.quadraticCurveTo(230, 435, 120, 395);
+        ctx.fill();
+
+        ctx.fillStyle = 'rgba(255,255,255,0.18)';
+        for (let i = 0; i < 5; i += 1) {
+          ctx.fillRect(20 + i * 55, 390 + Math.sin(i) * 8, 28, 4);
+        }
+      }
+
+      function drawUnits() {
+        for (const structure of gameState.structures) {
+          ctx.fillStyle = structure.color;
+          ctx.beginPath();
+          ctx.arc(structure.x, structure.y, structure.radius, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = '#1a202c';
+          ctx.fillRect(structure.x - 28, structure.y - structure.radius - 16, 56, 6);
+          ctx.fillStyle = '#68d391';
+          ctx.fillRect(structure.x - 28, structure.y - structure.radius - 16, 56 * clamp(structure.hp / structure.maxHp, 0, 1), 6);
+        }
+
+        for (const troop of gameState.troops) {
+          ctx.fillStyle = '#f7fafc';
+          ctx.beginPath();
+          ctx.arc(troop.x, troop.y, troop.radius, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = '#2d3748';
+          ctx.fillRect(troop.x - 10, troop.y - 15, 20, 4);
+          ctx.fillStyle = '#4fd1c5';
+          ctx.fillRect(troop.x - 10, troop.y - 15, 20 * clamp(troop.hp / troop.maxHp, 0, 1), 4);
+        }
+
+        for (const bullet of gameState.bullets) {
+          ctx.fillStyle = bullet.friendly ? '#90cdf4' : '#feb2b2';
+          ctx.beginPath();
+          ctx.arc(bullet.x, bullet.y, 3.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        for (const effect of gameState.explosions) {
+          ctx.strokeStyle = effect.color;
+          ctx.lineWidth = 3;
+          ctx.globalAlpha = Math.max(effect.ttl, 0.1);
+          ctx.beginPath();
+          ctx.arc(effect.x, effect.y, effect.radius, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.globalAlpha = 1;
+        }
+      }
+
+      function drawOverlay() {
+        ctx.fillStyle = 'rgba(6, 24, 37, 0.55)';
+        ctx.fillRect(18, 18, 330, 74);
+        ctx.fillStyle = '#edf2f7';
+        ctx.font = 'bold 24px Inter, sans-serif';
+        ctx.fillText('Island Siege', 32, 48);
+        ctx.font = '16px Inter, sans-serif';
+        ctx.fillStyle = '#cbd5e0';
+        ctx.fillText(gameState.selectedText, 32, 74);
+
+        if (gameState.gameOver) {
+          ctx.fillStyle = 'rgba(2, 6, 23, 0.72)';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.fillStyle = gameState.victory ? '#68d391' : '#feb2b2';
+          ctx.font = 'bold 42px Inter, sans-serif';
+          ctx.fillText(gameState.victory ? 'Victory!' : 'Raid Failed', 360, 230);
+          ctx.fillStyle = '#edf2f7';
+          ctx.font = '20px Inter, sans-serif';
+          ctx.fillText('Press Restart Raid to play again.', 330, 275);
+        }
+      }
+
+      function tick(timestamp) {
+        if (!gameState.lastTime) gameState.lastTime = timestamp;
+        const dt = Math.min((timestamp - gameState.lastTime) / 1000, 0.033);
+        gameState.lastTime = timestamp;
+
+        if (!gameState.gameOver) {
+          gameState.energy = Math.min(100, gameState.energy + dt * 5);
+          updateTroops(dt);
+          updateStructures(dt);
+          updateBullets(dt);
+          updateExplosions(dt);
+          checkGameState();
+          syncUi();
+        }
+
+        drawIsland();
+        drawUnits();
+        drawOverlay();
+        requestAnimationFrame(tick);
+      }
+
+      canvas.addEventListener('click', (event) => {
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+        const x = (event.clientX - rect.left) * scaleX;
+        const y = (event.clientY - rect.top) * scaleY;
+
+        if (gameState.mode === 'artillery') {
+          triggerArtillery(x, y);
+          gameState.mode = 'deploy';
+          gameState.selectedText = 'Deploy troops on the beach.';
+        } else if (gameState.mode === 'medkit') {
+          triggerMedkit(x, y);
+          gameState.mode = 'deploy';
+          gameState.selectedText = 'Deploy troops on the beach.';
+        } else {
+          spawnTroops(x, y);
+        }
+      });
+
+      ui.spawnBtn.addEventListener('click', () => {
+        gameState.mode = 'deploy';
+        gameState.selectedText = 'Deploy troops on the beach.';
+      });
+      ui.artilleryBtn.addEventListener('click', () => {
+        gameState.mode = 'artillery';
+        gameState.selectedText = 'Click a target for artillery.';
+      });
+      ui.medkitBtn.addEventListener('click', () => {
+        gameState.mode = 'medkit';
+        gameState.selectedText = 'Click your troops to heal them.';
+      });
+      ui.resetBtn.addEventListener('click', resetGame);
+
+      resetGame();
+      requestAnimationFrame(tick);
+    </script>
+  </body>
+</html>
