@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Command School: Fleet Tactics</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero-panel" aria-labelledby="game-title">
+        <div>
+          <p class="eyebrow">Zero-g fleet command simulator</p>
+          <h1 id="game-title">Command School: Fleet Tactics</h1>
+          <p class="lede">
+            Direct a squadron of cadet ships through tactical battle-room engagements. Choose
+            formations, focus fire, and protect your command carrier while enemy drones adapt to
+            your movements.
+          </p>
+        </div>
+        <div class="score-card" aria-live="polite">
+          <span>Wave</span>
+          <strong id="waveLabel">1</strong>
+          <span>Score</span>
+          <strong id="scoreLabel">0</strong>
+        </div>
+      </section>
+
+      <section class="game-layout">
+        <aside class="panel instructions">
+          <h2>Command Console</h2>
+          <p>
+            Select a maneuver, then click the battle-room to send your fleet. Your ships auto-fire
+            when enemies enter range.
+          </p>
+          <div class="button-grid" role="group" aria-label="Fleet formations">
+            <button class="command active" data-formation="wedge">Wedge</button>
+            <button class="command" data-formation="wall">Wall</button>
+            <button class="command" data-formation="orbital">Orbital</button>
+          </div>
+          <dl class="stats">
+            <div><dt>Carrier Hull</dt><dd id="hullLabel">100%</dd></div>
+            <div><dt>Fleet</dt><dd id="fleetLabel">6 ships</dd></div>
+            <div><dt>Enemy Drones</dt><dd id="enemyLabel">0</dd></div>
+            <div><dt>Orders</dt><dd id="ordersLabel">Move to center</dd></div>
+          </dl>
+          <button id="restartButton" class="restart">Restart Simulation</button>
+        </aside>
+
+        <section class="arena-wrap" aria-label="Fleet command battle-room">
+          <canvas id="arena" width="960" height="620"></canvas>
+          <div id="overlay" class="overlay hidden">
+            <h2 id="overlayTitle">Simulation Complete</h2>
+            <p id="overlayText"></p>
+            <button id="overlayRestart">Try Again</button>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="game.js"></script>
+  </body>
+</html>
