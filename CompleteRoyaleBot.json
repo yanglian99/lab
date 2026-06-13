@@ -1,0 +1,18 @@
+{
+  "name": "Complete Royale Bot",
+  "version": "1.0.0",
+  "authors": [
+    "OpenAI"
+  ],
+  "description": "A complete Robocode Tank Royale Java bot with movement, targeting, radar lock, and event reactions.",
+  "homepage": "https://openai.com",
+  "countryCodes": [
+    "us"
+  ],
+  "platform": "JVM",
+  "programmingLang": "Java 17",
+  "gameTypes": [
+    "classic"
+  ],
+  "codeSize": 0
+}
