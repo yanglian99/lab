@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tank Arena Lab</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="layout">
+      <section class="panel intro">
+        <p class="eyebrow">Arcade prototype</p>
+        <h1>Tank Arena Lab</h1>
+        <p>
+          A browser tank battle inspired by Robocode: dodge shells, hunt enemy bots,
+          and survive escalating rounds inside a reactive arena.
+        </p>
+        <ul class="controls">
+          <li><strong>Move:</strong> W A S D</li>
+          <li><strong>Aim turret:</strong> Mouse</li>
+          <li><strong>Fire:</strong> Left click or Space</li>
+          <li><strong>Burst boost:</strong> Shift</li>
+          <li><strong>Restart:</strong> R</li>
+        </ul>
+      </section>
+
+      <section class="panel game-shell">
+        <div class="hud" aria-live="polite">
+          <div><span>Round</span><strong id="round">1</strong></div>
+          <div><span>Integrity</span><strong id="health">100</strong></div>
+          <div><span>Enemies</span><strong id="enemies">0</strong></div>
+          <div><span>Score</span><strong id="score">0</strong></div>
+        </div>
+        <canvas id="game" width="960" height="600"></canvas>
+        <div class="legend">
+          <span><i class="swatch player"></i> You</span>
+          <span><i class="swatch enemy"></i> Bots</span>
+          <span><i class="swatch obstacle"></i> Cover</span>
+          <span><i class="swatch pickup"></i> Repairs</span>
+        </div>
+      </section>
+    </main>
+
+    <script src="game.js"></script>
+  </body>
+</html>
