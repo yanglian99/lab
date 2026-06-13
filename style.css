@@ -1,0 +1,286 @@
+:root {
+  color-scheme: dark;
+  --bg: #070b12;
+  --panel: rgba(14, 21, 33, 0.92);
+  --panel-border: rgba(255, 255, 255, 0.08);
+  --text: #ecf2ff;
+  --muted: #9cb2d1;
+  --accent: #ff4d5d;
+  --accent-soft: rgba(255, 77, 93, 0.18);
+  --good: #6df7c1;
+  --warn: #ffd166;
+  --danger: #ff4d5d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Inter, system-ui, sans-serif;
+  background:
+    radial-gradient(circle at top, rgba(255, 77, 93, 0.2), transparent 35%),
+    linear-gradient(180deg, #08111d 0%, #03060c 100%);
+  color: var(--text);
+}
+
+button {
+  font: inherit;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.app-shell {
+  width: min(1200px, calc(100vw - 32px));
+  margin: 0 auto;
+  padding: 24px 0;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 20px;
+}
+
+.hud-panel,
+.game-panel {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 24px;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+}
+
+.hud-panel {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.eyebrow,
+.label,
+.help-text,
+.subtitle,
+.status-bar span {
+  color: var(--muted);
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.75rem;
+  margin: 0 0 8px;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-size: clamp(2.2rem, 5vw, 3rem);
+}
+
+.subtitle {
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.stats-grid article {
+  padding: 16px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.label {
+  display: block;
+  font-size: 0.8rem;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.stats-grid strong {
+  font-size: 1.6rem;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+}
+
+.controls button {
+  padding: 12px 18px;
+  color: white;
+  background: linear-gradient(135deg, #ff5a6a, #d82442);
+  box-shadow: 0 12px 24px rgba(255, 77, 93, 0.25);
+}
+
+.controls button:last-child {
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+}
+
+.help-text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.game-panel {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.status-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.bar-track {
+  flex: 1;
+  height: 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  width: 8%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--good), var(--warn), var(--danger));
+  transition: width 160ms ease;
+}
+
+.game-board {
+  position: relative;
+  min-height: 72vh;
+  border-radius: 28px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at center, rgba(255, 80, 92, 0.08), transparent 45%),
+    linear-gradient(180deg, rgba(19, 30, 45, 0.75), rgba(5, 8, 14, 0.96)),
+    linear-gradient(180deg, #0d1626 0%, #03060d 100%);
+}
+
+.game-board::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.city {
+  position: absolute;
+  inset: auto 0 0;
+  height: 18%;
+  background:
+    linear-gradient(180deg, rgba(255, 90, 106, 0.1), rgba(255, 90, 106, 0.02)),
+    linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.5)),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.12) 0 18px,
+      transparent 18px 36px,
+      rgba(255, 255, 255, 0.08) 36px 54px,
+      transparent 54px 80px
+    );
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.enemy {
+  position: absolute;
+  width: var(--size);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 30%, #ffd2d7, #ff5b6b 35%, #98162e 100%);
+  box-shadow:
+    0 0 0 8px rgba(255, 77, 93, 0.08),
+    0 12px 32px rgba(255, 77, 93, 0.35);
+  cursor: crosshair;
+  transform: translate(-50%, -50%);
+  user-select: none;
+}
+
+.enemy::after {
+  content: "";
+  position: absolute;
+  inset: 28%;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.55);
+}
+
+.enemy.hit {
+  animation: pop 220ms ease-out forwards;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  background: rgba(3, 6, 12, 0.68);
+  z-index: 5;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+
+.overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.overlay > div {
+  max-width: 440px;
+  padding: 32px;
+}
+
+.overlay h2 {
+  margin-bottom: 12px;
+  font-size: clamp(2rem, 5vw, 3rem);
+}
+
+.overlay p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+@keyframes pop {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.6);
+  }
+}
+
+@media (max-width: 900px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .game-board {
+    min-height: 60vh;
+  }
+}

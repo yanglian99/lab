@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Red Alert</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="hud-panel">
+        <div>
+          <p class="eyebrow">Emergency Defense Grid</p>
+          <h1>Red Alert</h1>
+          <p class="subtitle">
+            Intercept incoming threats before they reach the city core.
+          </p>
+        </div>
+        <div class="stats-grid" aria-label="Game statistics">
+          <article>
+            <span class="label">Score</span>
+            <strong id="score">0</strong>
+          </article>
+          <article>
+            <span class="label">Alert</span>
+            <strong id="alert-level">GREEN</strong>
+          </article>
+          <article>
+            <span class="label">Integrity</span>
+            <strong id="integrity">100%</strong>
+          </article>
+          <article>
+            <span class="label">Wave</span>
+            <strong id="wave">1</strong>
+          </article>
+        </div>
+        <div class="controls">
+          <button id="start-button" type="button">Start Mission</button>
+          <button id="pause-button" type="button">Pause</button>
+        </div>
+        <p class="help-text">
+          Click or tap hostile drones to neutralize them. Survive long enough to
+          escalate through higher alert phases.
+        </p>
+      </section>
+
+      <section class="game-panel">
+        <div class="status-bar">
+          <div class="bar-track" aria-hidden="true">
+            <div id="danger-bar" class="bar-fill"></div>
+          </div>
+          <span id="status-message">Stand by, commander.</span>
+        </div>
+
+        <div id="game-board" class="game-board" aria-label="Game board">
+          <div class="city"></div>
+          <div id="overlay" class="overlay visible">
+            <div>
+              <h2 id="overlay-title">Red Alert</h2>
+              <p id="overlay-text">
+                Begin the mission and defend the city from incoming threats.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
