@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chess vs AI</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <h1>Chess vs AI</h1>
+    <p class="subtitle">Play as White against a simple minimax AI.</p>
+
+    <section class="controls">
+      <label for="difficulty">AI depth:</label>
+      <select id="difficulty">
+        <option value="1">Easy (1 ply)</option>
+        <option value="2" selected>Normal (2 ply)</option>
+        <option value="3">Hard (3 ply)</option>
+      </select>
+      <button id="newGame">New game</button>
+    </section>
+
+    <div id="board" class="board" aria-label="Chess board"></div>
+    <p id="status" class="status">Your move (White).</p>
+    <p class="hint">Click a piece, then click a highlighted destination.</p>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
