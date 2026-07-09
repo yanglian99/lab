@@ -1,0 +1,28 @@
+:root {
+  color-scheme: dark;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #07111f;
+  color: #e8f6ff;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; background: radial-gradient(circle at top left, #17345b, #06101e 60%); }
+.shell { width: min(1280px, calc(100vw - 32px)); margin: 0 auto; padding: 24px 0; }
+.hud { display: grid; grid-template-columns: 1fr repeat(3, minmax(110px, auto)) auto; gap: 16px; align-items: center; padding: 16px; border: 1px solid #275179; border-radius: 20px; background: rgba(5, 18, 33, 0.82); box-shadow: 0 24px 70px rgba(0,0,0,.35); }
+.eyebrow { margin: 0 0 4px; color: #7bdfff; letter-spacing: .2em; text-transform: uppercase; font-size: .76rem; }
+h1 { margin: 0; font-size: clamp(1.6rem, 3vw, 2.8rem); }
+.stat { padding: 10px 14px; border-radius: 14px; background: rgba(29, 72, 115, .45); border: 1px solid rgba(123, 223, 255, .25); }
+.stat span { display:block; color:#9db6c8; font-size:.78rem; text-transform:uppercase; letter-spacing:.08em; }
+.stat strong { font-size: 1.35rem; }
+button { cursor: pointer; border: 0; border-radius: 12px; padding: 12px 14px; color: #04101b; background: linear-gradient(135deg, #8ff3ff, #54a6ff); font-weight: 800; box-shadow: 0 10px 24px rgba(50, 173, 255, .18); }
+button:hover { filter: brightness(1.1); }
+.battlefield-wrap { display: grid; grid-template-columns: 1fr 300px; gap: 18px; margin-top: 18px; }
+canvas { width: 100%; height: auto; border: 1px solid #2c5d86; border-radius: 20px; background: #071421; box-shadow: inset 0 0 55px rgba(43, 161, 255, .13), 0 24px 70px rgba(0,0,0,.38); }
+.panel { padding: 18px; border-radius: 20px; background: rgba(5, 18, 33, .88); border: 1px solid #275179; }
+.panel h2, .panel h3 { margin-top: 0; }
+.panel p, .panel li { color: #bdd1df; line-height: 1.5; }
+.button-grid { display: grid; gap: 10px; margin: 18px 0; }
+.button-grid button { text-align: left; }
+.button-grid small { display:block; opacity:.75; font-weight: 700; margin-top: 3px; }
+kbd { background:#0c2137; border:1px solid #2c5d86; border-radius:5px; padding:1px 6px; }
+@media (max-width: 960px) { .hud, .battlefield-wrap { grid-template-columns: 1fr; } }

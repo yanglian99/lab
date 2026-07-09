@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sector Command</title>
+    <link rel="stylesheet" href="src/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hud" aria-label="Command dashboard">
+        <div>
+          <p class="eyebrow">Sector Command</p>
+          <h1>Crystal Frontier</h1>
+        </div>
+        <div class="stat"><span>Crystals</span><strong id="minerals">80</strong></div>
+        <div class="stat"><span>Gas</span><strong id="gas">25</strong></div>
+        <div class="stat"><span>Supply</span><strong id="supply">4 / 10</strong></div>
+        <button id="restart" type="button">Restart Mission</button>
+      </section>
+
+      <section class="battlefield-wrap">
+        <canvas id="battlefield" width="960" height="560" aria-label="Playable real-time strategy battlefield"></canvas>
+        <aside class="panel" aria-label="Command controls">
+          <h2>Command Console</h2>
+          <p id="message">Select units, gather resources, build your army, and destroy the enemy hive.</p>
+          <div class="button-grid">
+            <button data-action="worker">Train Drone <small>50 crystals</small></button>
+            <button data-action="marine">Train Ranger <small>65 crystals / 10 gas</small></button>
+            <button data-action="tank">Build Siege Walker <small>120 crystals / 45 gas</small></button>
+            <button data-action="attack">Attack Move <small>A + click</small></button>
+          </div>
+          <h3>How to play</h3>
+          <ul>
+            <li>Drag a box or click units to select them.</li>
+            <li>Right-click crystals or gas to gather.</li>
+            <li>Right-click the field to move selected units.</li>
+            <li>Press <kbd>A</kbd>, then click to order an attack move.</li>
+          </ul>
+        </aside>
+      </section>
+    </main>
+    <script src="src/game.js"></script>
+  </body>
+</html>
