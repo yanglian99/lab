@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Red Alert</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero" aria-labelledby="game-title">
+        <p class="eyebrow">DEFCON Arcade</p>
+        <h1 id="game-title">Red Alert</h1>
+        <p class="lede">
+          Pilot the last interceptor around the command core. Tag enemy drones, trigger pulse blasts,
+          and survive the 90-second lockdown.
+        </p>
+      </section>
+
+      <section class="hud" aria-label="Game stats">
+        <div><span>Score</span><strong id="score">0</strong></div>
+        <div><span>Core</span><strong id="health">100%</strong></div>
+        <div><span>Time</span><strong id="time">90</strong></div>
+        <div><span>Pulse</span><strong id="pulse">Ready</strong></div>
+      </section>
+
+      <section class="game-card">
+        <canvas id="game" width="960" height="540" aria-label="Red Alert game canvas"></canvas>
+        <div class="overlay" id="overlay">
+          <h2 id="status-title">Red Alert</h2>
+          <p id="status-copy">Press Start to begin the lockdown defense.</p>
+          <button id="start">Start Game</button>
+        </div>
+      </section>
+
+      <section class="controls" aria-label="Controls">
+        <p><kbd>WASD</kbd>/<kbd>Arrows</kbd> move</p>
+        <p><kbd>Space</kbd> pulse blast</p>
+        <p><kbd>P</kbd> pause</p>
+      </section>
+    </main>
+
+    <script src="game.js"></script>
+  </body>
+</html>
