@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reading Game</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="game-shell">
+    <section class="hero" aria-labelledby="game-title">
+      <p class="eyebrow">Practice comprehension</p>
+      <h1 id="game-title">Reading Game</h1>
+      <p class="intro">Read each short story, answer the question, and build a streak.</p>
+    </section>
+
+    <section class="card" aria-live="polite">
+      <div class="scoreboard">
+        <div><span id="score">0</span><small>Score</small></div>
+        <div><span id="streak">0</span><small>Streak</small></div>
+        <div><span id="round">1</span><small>Round</small></div>
+      </div>
+
+      <article class="passage">
+        <h2 id="passage-title"></h2>
+        <p id="passage-text"></p>
+      </article>
+
+      <form id="answer-form" class="question-area">
+        <fieldset>
+          <legend id="question"></legend>
+          <div id="choices" class="choices"></div>
+        </fieldset>
+        <button type="submit">Check answer</button>
+      </form>
+
+      <p id="feedback" class="feedback" role="status"></p>
+      <button id="next-button" class="secondary" type="button" hidden>Next story</button>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
